@@ -30,7 +30,7 @@ const Navbar = () => {
               color: 'white' 
             }}
           >
-            Profile Mapping App
+            Map-Connect
           </Link>
         </Typography>
 
