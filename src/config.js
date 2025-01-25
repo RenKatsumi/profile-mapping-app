@@ -1,6 +1,7 @@
 // src/config.js
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from "firebase/storage";
 
 // Firebase configuration object
 const firebaseConfig = {
@@ -19,5 +20,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore and export it
 const db = getFirestore(app);
 
-// Export db as default
-export default db;
+// Initialize Firebase Storage
+const storage = getStorage(app);
+
+// Export the necessary services
+export { db, storage };

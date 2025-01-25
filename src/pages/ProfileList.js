@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import ProfileCard from '../components/ProfileCard';
 import { collection, getDocs } from 'firebase/firestore';
-import db from '../config'; // Assuming your Firebase config is here
+import { db } from "../config";
+
 
 const ProfileList = () => {
   const [profiles, setProfiles] = useState([]); // State to store profiles
   const [loading, setLoading] = useState(true); // Loading state
-
+ 
   // Fetch profiles from Firestore when component mounts
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -34,13 +35,13 @@ const ProfileList = () => {
   }
 
   return (
-    <Grid container spacing={3}>
-      {profiles.map((profile) => (
-        <Grid item xs={12} sm={6} md={4} key={profile.id}>
-          <ProfileCard profile={profile} />
-        </Grid>
-      ))}
-    </Grid>
+    <Grid container spacing={4} columnSpacing={3}>
+    {profiles.map((profile) => (
+      <Grid item xs={12} sm={6} md={3} lg={2} key={profile.id}>
+        <ProfileCard profile={profile} />
+      </Grid>
+    ))}
+  </Grid>
   );
 };
 

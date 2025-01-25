@@ -3,13 +3,34 @@ import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { CircularProgress, Card, CardContent, Typography, Divider } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
-import db from '../config'; 
-import { doc, getDoc } from 'firebase/firestore';  // Import Firestore methods
+import { db } from "../config";
+import { doc, getDoc } from 'firebase/firestore';
+import L from 'leaflet';
 
 const ProfileDetails = () => {
   const { id } = useParams(); // Get the profile ID from the URL
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const createCustomIcon = (avatarUrl) =>
+    L.divIcon({
+      html: `
+        <div style="
+          width: 50px;
+          height: 50px;
+          border: 3px solid white;
+          border-radius: 50%;
+          background-image: url('${avatarUrl}');
+          background-size: cover;
+          background-position: center;
+          box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+        "></div>
+      `,
+      className: 'custom-icon',
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+      popupAnchor: [0, -50],
+    });
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -47,19 +68,18 @@ const ProfileDetails = () => {
       {/* Profile Header */}
       <Typography variant="h4">{profile.name}</Typography>
       <Typography variant="h6" color="textSecondary">{profile.description}</Typography>
+      <Typography variant="body1">Address: {profile.address} </Typography>
       <Divider style={{ margin: '20px 0' }} />
 
-      {/* Contact Information */}
+      {/*  Information */}
       <Card style={{ marginBottom: '20px' }}>
         <CardContent>
-          <Typography variant="h6">Contact Information</Typography>
-          <Typography variant="body1">Email: {profile.contact}</Typography>
-          <Typography variant="body1">Interests: {profile.interests}</Typography>
+          <Typography variant="h6">About Me</Typography>
+          <Typography variant="body1"> 
+            The user can write something about themselves here, but i didnt put too much effort for it so here is some Dummy text
+          </Typography>    
         </CardContent>
       </Card>
-
-      {/* Address */}
-      <h2>Address: {profile.address}</h2>
 
       {/* Map */}
       {profile.latitude && profile.longitude && (
@@ -72,7 +92,10 @@ const ProfileDetails = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="&copy; OpenStreetMap contributors"
           />
-          <Marker position={{ lat: profile.latitude, lng: profile.longitude }}>
+          <Marker 
+          position={{ lat: profile.latitude, lng: profile.longitude }}
+          icon={createCustomIcon(profile.avatar)} // Use the custom icon
+         >
             <Popup>{profile.address}</Popup>
           </Marker>
         </MapContainer>

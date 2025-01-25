@@ -1,11 +1,19 @@
-// src/pages/Home.js
-import React from 'react';
+
+import { Box } from "@mui/material";
+import HomeHeader from "../components/HomeHeader";
+import HomeProfileMap from "../components/HomeProfileMap";
+import FooterComponent from "../components/FooterComponent";
 
 const Home = () => {
+
   return (
-    <div>
-      <h1>Welcome to Profile Mapping App</h1>
-    </div>
+    <>
+     <Box sx={{ p: 2 }}>
+     <HomeHeader></HomeHeader>
+      <HomeProfileMap/>
+      <FooterComponent/>
+     </Box> 
+      </>
   );
 };
 
